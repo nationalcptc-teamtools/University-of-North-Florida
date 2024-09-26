@@ -1,0 +1,3 @@
+`sudo apt install gedit`
+- useful text editor 
+- not needed, plenty of others like nano, vim, mousepad, etc...
