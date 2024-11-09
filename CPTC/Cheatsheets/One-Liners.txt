@@ -1,0 +1,3 @@
+List all users on a Linux system: cat /etc/passwd | cut -d ':' -f 1
+Check for open ports: netstat -tuln
+Search for sensitive files: find / -name "*.conf" -o -name "*.bak" -o -name "*backup*"

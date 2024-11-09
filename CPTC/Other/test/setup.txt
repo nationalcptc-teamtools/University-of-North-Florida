@@ -1,0 +1,44 @@
+Organize Files:
+
+    Create a folder (e.g., phish_server) and place index.html, login.php, and an empty creds.txt file in it.
+    Set permissions on creds.txt to make it writable:
+
+    touch creds.txt && chmod 666 creds.txt
+
+Start the PHP Server:
+
+    Open a terminal in the phish_server directory.
+    Run the command:
+
+        php -S 0.0.0.0:8080
+
+        This command starts a local server accessible at http://localhost:8080. Replace 0.0.0.0 with your network IP to make it accessible on the local network.
+
+    Test Access:
+        Open a web browser and navigate to http://localhost:8080 (or your network IP and port) to test the phishing page.
+
+Section 3: Phishing Email Template
+
+Compose a realistic phishing email to encourage the target to click on the phishing link. Ensure all content is carefully worded to avoid raising suspicion.
+Example Email Template
+
+Subject: "Security Alert: Unusual Login Attempt Detected"
+
+Body:
+
+    Dear [User’s Name],
+
+    We detected a suspicious login attempt on your account. As a security measure, please verify your account by logging in at the link below:
+
+    [Phishing URL]
+
+    Failure to verify within 24 hours may result in account suspension.
+
+    Regards,
+    The Security Team
+
+Section 4: Important Notes and Best Practices
+
+    Ethical Use Only: This setup is intended strictly for controlled environments such as pentesting competitions or authorized labs.
+    Network Configuration: Adjust network and firewall settings as needed to make the server accessible over the network.
+    File Security: Delete creds.txt and any sensitive data after use to protect collected information and ensure ethical handling.

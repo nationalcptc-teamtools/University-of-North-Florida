@@ -1,0 +1,119 @@
+1. SSH (Port 22)
+
+    Command: nmap -p 22 --script ssh-auth-methods,ssh-hostkey,sshv1 <target IP>
+    Description: Enumerate supported SSH auth methods, check for SSHv1 usage, and retrieve host keys.
+    Exploit: Use password or key-based brute-force attacks with hydra -t 4 -l <user> -P <password_list> ssh://<target IP>
+
+2. HTTP/HTTPS (Ports 80, 443)
+
+    Command: nikto -h http(s)://<target IP> and gobuster dir -u http(s)://<target IP> -w /path/to/wordlist
+    Description: Identify potential web vulnerabilities and hidden directories.
+    Exploit: SQL injection with sqlmap (sqlmap -u "http(s)://<target IP>/vuln" --dbs), XSS, and authentication brute force.
+
+3. FTP (Port 21)
+
+    Command: nmap -p 21 --script ftp-anon,ftp-brute,ftp-vsftpd-backdoor <target IP>
+    Description: Check for anonymous access, perform brute-force attempts, and test for VSFTPD backdoor.
+    Exploit: If anonymous login is enabled, use ftp <target IP> and log in with anonymous.
+
+4. SMB (Ports 139, 445)
+
+    Command: smbclient -L <target IP> -U <username>%<password> and nmap -p 139,445 --script smb-enum-shares,smb-enum-users <target IP>
+    Description: Enumerate shared folders and users.
+    Exploit: Test for null sessions with smbclient and attempt Metasploit SMB vulnerabilities (e.g., EternalBlue).
+
+5. DNS (Port 53)
+
+    Command: dig axfr @<target IP> <domain> or dnsrecon -d <domain> -t axfr
+    Description: Check for DNS zone transfer.
+    Exploit: Extract domain info if zone transfer is allowed.
+
+6. MySQL (Port 3306)
+
+    Command: mysql -u root -p -h <target IP> and nmap -p 3306 --script mysql-enum
+    Description: Attempt to connect with default credentials and enumerate MySQL settings.
+    Exploit: Bruteforce or try default credentials (root without password).
+
+7. MSSQL (Port 1433)
+
+    Command: nmap -p 1433 --script ms-sql-info,ms-sql-empty-password <target IP>
+    Description: Enumerate MSSQL info and check for empty passwords.
+    Exploit: Try logging in with empty or default passwords.
+
+8. RDP (Port 3389)
+
+    Command: nmap -p 3389 --script rdp-enum-encryption <target IP>
+    Description: Determine RDP encryption level.
+    Exploit: Use xfreerdp for RDP connections and brute force with tools like hydra.
+
+9. SMTP (Port 25)
+
+    Command: nmap -p 25 --script smtp-commands,smtp-enum-users <target IP>
+    Description: Enumerate SMTP commands and users.
+    Exploit: Use smtp-user-enum to identify valid email addresses for social engineering.
+
+10. POP3 (Port 110)
+
+    Command: nmap -p 110 --script pop3-capabilities,pop3-ntlm-info <target IP>
+    Description: Enumerate POP3 capabilities and NTLM info.
+    Exploit: Attempt brute force attacks on POP3 if authentication is weak.
+
+11. IMAP (Port 143)
+
+    Command: nmap -p 143 --script imap-capabilities,imap-ntlm-info <target IP>
+    Description: Check IMAP capabilities and NTLM information.
+    Exploit: Similar to POP3, brute-force or default credential attempts.
+
+12. LDAP (Port 389)
+
+    Command: nmap -p 389 --script ldap-search <target IP>
+    Description: Perform LDAP enumeration for user data and group information.
+    Exploit: Attempt anonymous access or weak credentials if applicable.
+
+13. NFS (Port 2049)
+
+    Command: nmap -p 2049 --script nfs-ls,nfs-showmount <target IP>
+    Description: Enumerate exported NFS shares.
+    Exploit: Mount shares and check for sensitive data (mount -t nfs <target IP>:/share /mnt).
+
+14. Telnet (Port 23)
+
+    Command: nmap -p 23 --script telnet-encryption <target IP>
+    Description: Check for Telnet access and encryption status.
+    Exploit: Attempt brute force if Telnet is enabled, or use common default credentials.
+
+15. SNMP (Ports 161, 162)
+
+    Command: snmpwalk -v1 -c public <target IP>
+    Description: Use default community strings for information gathering.
+    Exploit: Extract sensitive system info using default or weak community strings.
+
+16. PostgreSQL (Port 5432)
+
+    Command: nmap -p 5432 --script pgsql-info <target IP>
+    Description: Retrieve PostgreSQL version and other information.
+    Exploit: Attempt default credentials (postgres without password).
+
+17. Redis (Port 6379)
+
+    Command: redis-cli -h <target IP> info
+    Description: Connect to Redis and gather info if unauthenticated access is enabled.
+    Exploit: Use Redis for persistence or privilege escalation if accessible without credentials.
+
+18. ElasticSearch (Port 9200)
+
+    Command: curl -X GET http://<target IP>:9200/_cat/indices?v
+    Description: Identify accessible indices on ElasticSearch.
+    Exploit: If open, use the _search endpoint to extract data.
+
+19. MongoDB (Port 27017)
+
+    Command: mongo --host <target IP> --eval 'db.stats()'
+    Description: Check if MongoDB allows unauthenticated access.
+    Exploit: Extract database information if authentication is not enforced.
+
+20. VNC (Port 5900)
+
+    Command: nmap -p 5900 --script vnc-info,vnc-brute <target IP>
+    Description: Enumerate VNC info and attempt brute force.
+    Exploit: Attempt brute force attacks with hydra or vncrack.

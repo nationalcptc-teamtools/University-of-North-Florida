@@ -1,0 +1,25 @@
+WinPEAS (Windows):
+
+    Download: Invoke-WebRequest or manual transfer.
+    Run all checks:
+
+winPEASx64.exe -a
+
+Run quick checks:
+
+    winPEASx64.exe -fast
+
+LinPEAS (Linux):
+
+    Download: wget or SCP transfer.
+    Make executable:
+
+chmod +x linpeas.sh
+
+Run all checks:
+
+./linpeas.sh
+
+Run with quiet mode:
+
+./linpeas.sh -q

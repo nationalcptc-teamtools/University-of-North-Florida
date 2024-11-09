@@ -1,0 +1,55 @@
+Team Coordination Cheatsheet
+1. Broaden Horizons: Embrace “Jack of All Trades” Mindset
+
+    Overview: While each member has a specialty, develop a working knowledge of all major services and tools. Be adaptable.
+    Tip: Keep shared “cheat sheets” on command-line options and common service configurations in a team-accessible document.
+
+2. Defined Roles & Trust Your Team
+
+    Stay in Your Lane: Focus on your assigned tasks, and trust others to manage theirs.
+    Offer Help When Asked: Avoid micromanaging, but be available for support.
+    Roles Reference:
+        Captain/Co-Captain: Coordinate, check in with each team member, and adjust strategy.
+        Pentesters: Run designated scans, exploits, and specific checks per area (network, web, cloud).
+        Business Lead: Document the business impact of vulnerabilities, prepare the report.
+
+3. Action Playbook
+
+    Preparation: Have all tools, scripts, and configuration files ready.
+    Execution: Follow the playbook steps methodically, referencing this sheet for guidance.
+    Tools Needed: CrackMapExec for enumeration, NetExec, Nmap, Hydra, PayloadsAllTheThings repository, and mind mapping software.
+
+4. Regular Check-ins
+
+    20-Minute Interval: Every 20 minutes, captains check in with each team member to review findings, address blockers, and confirm progress.
+    Platform Awareness: Document server platforms (OS, version, architecture) as they are discovered.
+
+5. Internal & External View of Systems
+
+    Focus: Emphasize how the system appears to external and internal entities.
+    Enemy Awareness: Identify and catalog potential “defenders” or unusual behaviors; try to distinguish between friendly and potentially hostile activity.
+
+6. Documentation Protocol
+
+    Record Everything: Note down every action, result, and command—even if it seems trivial.
+    Screenshots: Use CTRL+SHIFT+S for screenshots, and CTRL+C/CTRL+V to paste into documentation.
+        Annotate: Draw arrows, highlight key areas, and black out sensitive information like passwords.
+    One-Liners: Write and document quick one-liners to automate tasks or manage frequent commands (e.g., grep, awk).
+
+7. Mind Mapping & Crackmap Enumeration
+
+    Mind Mapping: Use mind mapping software to track findings visually, showing relationships, vulnerabilities, and potential attack paths.
+    CrackMapExec: For network-wide enumeration on Linux, catalog trusted domains and map accounts and permissions.
+
+8. Common Weak Passwords
+
+    Check for Weak Passwords First: Try simple combinations before complex attack paths; many systems overlook strong password requirements.
+
+9. Persistence Strategy
+
+    Selectivity: Don’t overuse persistence; focus on strategic systems where privilege gains were successful but avoid nearby nodes to avoid detection.
+
+10. Resources
+
+    PayloadsAllTheThings Repo: GitHub link for scripts and payloads useful in CTFs and pentests.
+    HackSpaceCon & OnDefend Insights: Integrate techniques, tools, and situational awareness discussed at these events.
