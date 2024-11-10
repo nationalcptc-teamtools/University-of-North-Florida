@@ -1,0 +1,6 @@
+https://nored0x.github.io/red-teaming/windows-enumeration/
+https://www.vicarius.io/vsociety/posts/windows-enumeration
+https://medium.com/@marufrigan9/how-to-automate-windows-local-enumeration-7d4881008ecb
+https://github.com/AonCyberLabs/Windows-Exploit-Suggester
+https://github.com/Hacker22o2/Basic-windows-enumeration
+https://github.com/itm4n/PrivescCheck
